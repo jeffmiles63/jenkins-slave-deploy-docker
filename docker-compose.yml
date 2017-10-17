@@ -12,12 +12,9 @@ services:
         - JENKINS_SSH_PUBLIC_KEY=${JENKINS_SSH_PUBLIC_KEY}
     environment:
       - TZ=America/New_York
+    network_mode: host
     restart: always
-    command: /usr/sbin/sshd -D
-    ports:
-      # Default value is also in the ".env" file.  It is set to 2222.  Port 22
-      # is most likely already used by the host.
-      - ${ALTERNATE_SSH_PORT}:22
+    command: /usr/sbin/sshd -D -p ${ALTERNATE_SSH_PORT}
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - data:/var/jenkins
