@@ -12,7 +12,7 @@ services:
     environment:
       - TZ=America/New_York
     restart: always
-    command: bash -c "wget $SLAVE_JAR -O agent.jar && java -jar agent.jar -jnlpUrl $URL -secret $HEX_SECRET -workDir \"/var/jenkins\""
+    command: bash -c "curl $SLAVE_JAR -o agent.jar && java -jar agent.jar -jnlpUrl $URL -secret $HEX_SECRET -workDir \"/var/jenkins\""
     network_mode: host
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
