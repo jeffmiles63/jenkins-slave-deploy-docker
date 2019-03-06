@@ -2,14 +2,12 @@ FROM ubuntu:18.04
 
 ARG DOCKER_ENGINE_VERSION
 ARG DOCKER_COMPOSE_VERSION
-ARG JENKINS_SSH_PUBLIC_KEY
 
 ENV DOCKER_ENGINE_VERSION=${DOCKER_ENGINE_VERSION} \
     DOCKER_COMPOSE_VERSION=${DOCKER_COMPOSE_VERSION}
 
-# Install SSH server, Git, and cURL
+# Install Java Development Kit, Git, and cURL
 RUN apt-get update && apt-get install -y \
-      openssh-server \
       git \
       curl \
       default-jdk \
@@ -30,10 +28,4 @@ RUN curl -fsSL https://github.com/docker/compose/releases/download/${DOCKER_COMP
     chmod +x /usr/local/bin/docker-compose && \
     docker-compose --version
 
-# Copy SSH Jenkins credentials
-COPY ${JENKINS_SSH_PUBLIC_KEY} /root/.ssh/authorized_keys
-
-EXPOSE 22
 VOLUME /var/run/docker.sock
-
-CMD ["/usr/sbin/sshd", "-D"]
